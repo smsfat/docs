@@ -94,11 +94,11 @@ Authorization: Bearer {API_KEY}
 Content-Type: application/json
 
 {
-    sendmessageName: "ชื่อแคมเปญ",
-    message: "นี่คือข้อความทดสอบ",
-    phonelist: "065XXXXXX1\n065XXXXXX2\n065XXXXXX3\n065XXXXXX4", // สูงสุด 50000 เบอร์
-    schedule: "2025-02-02T22:12:36.147Z", // ตั้งเวลาที่ต้องการส่ง หากต้องการส่งทันทีให้ใช้เป็นเวลาปัจจุบัน (new Date())
-    senderId: "00000000-0000-0000-0000-000000000000" // ใช้เซ็นเดอร์ที่เป็นประเภท MARKETING เท่านั้น
+    "sendmessageName": "ชื่อแคมเปญ",
+    "message": "นี่คือข้อความทดสอบ",
+    "phonelist": "065XXXXXX1\n065XXXXXX2\n065XXXXXX3\n065XXXXXX4", // สูงสุด 50000 เบอร์
+    "schedule": "2025-02-02T22:12:36.147Z", // ตั้งเวลาที่ต้องการส่ง หากต้องการส่งทันทีให้ใช้เป็นเวลาปัจจุบัน (new Date())
+    "senderId": "00000000-0000-0000-0000-000000000000" // ใช้เซ็นเดอร์ที่เป็นประเภท MARKETING เท่านั้น
 }
 ```
 
@@ -108,7 +108,7 @@ Content-Type: application/json
     "code": 1000,
     "error": "",
     "message": "สำเร็จ",
-    "data": <Object> // ข้อมูลของแคมเปญที่สร้าง
+    "data": { /* ข้อมูลของแคมเปญที่สร้าง */ }
 }
 ```
 
@@ -122,8 +122,8 @@ Authorization: Bearer {API_KEY}
 Content-Type: application/json
 
 {   
-    target: "065XXXXXXX",
-    senderId: "00000000-0000-0000-0000-000000000000" // type OTP only | senderId เป็น OPTIONAL หรือไม่จำเป็นต้องแนบไปกับ payload ก็ได้ ไอดีของเซ็นเดอร์ใช้ในกรณีที่ไม่ต้องการส่งผ่านเซ็นเดอร์ค่าเริ่มต้นของระบบหรือต้องการใช้เซ็นเดอร์ของตัวเอง
+    "target": "065XXXXXXX",
+    "senderId": "00000000-0000-0000-0000-000000000000" // type OTP only | senderId เป็น OPTIONAL หรือไม่จำเป็นต้องแนบไปกับ payload ก็ได้ ไอดีของเซ็นเดอร์ใช้ในกรณีที่ไม่ต้องการส่งผ่านเซ็นเดอร์ค่าเริ่มต้นของระบบหรือต้องการใช้เซ็นเดอร์ของตัวเอง
 }
 ```
 
@@ -149,9 +149,9 @@ Authorization: Bearer {API_KEY}
 Content-Type: application/json
 
 {   
-    target: "065XXXXXXX",
-    otpCode: "123456" ,
-    otpRef: "AAAA"
+    "target": "065XXXXXXX",
+    "otpCode": "123456" ,
+    "otpRef": "AAAA"
 }
 ```
 
