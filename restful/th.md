@@ -32,7 +32,7 @@ Content-Type: application/json
 | `POST` | [`/api/v1/open/sms/campaign/send`](#post-apiv1opensmscampaignsend) | ส่งข้อความแคมเปญ | `sendmessageName`, `message`, `phonelist`, `schedule`, `senderId` |
 | `POST` | [`/api/v1/open/sms/otp/send`](#post-apiv1opensmsotpsend) | ส่งข้อความ OTP | `target`, `senderId (optional)` |
 | `POST` | [`/api/v1/open/sms/otp/verify`](#post-apiv1opensmsotpverify) | ยืนยัน OTP | `target`, `otpCode`, `otpRef` |
-| `POST` | [`/api/v1/open/sms/refund/:campaignId`](#post-apiv1opensmsrefundcampaignId) | refund | `campaignId` |
+| `POST` | [`/api/v1/open/sms/refund/:campaignId`](#post-apiv1opensmsrefundcampaignId) | คืนเครดิต | `campaignId` |
 
 ## ตัวอย่าง Request/Response
 
