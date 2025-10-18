@@ -32,6 +32,7 @@ Content-Type: application/json
 | `POST` | [`/api/v1/open/sms/campaign/send`](#post-apiv1opensmscampaignsend) | ส่งข้อความแคมเปญ | `sendmessageName`, `message`, `phonelist`, `schedule`, `senderId` |
 | `POST` | [`/api/v1/open/sms/otp/send`](#post-apiv1opensmsotpsend) | ส่งข้อความ OTP | `target`, `senderId (optional)` |
 | `POST` | [`/api/v1/open/sms/otp/verify`](#post-apiv1opensmsotpverify) | ยืนยัน OTP | `target`, `otpCode`, `otpRef` |
+| `POST` | [`/api/v1/open/sms/refund/:campaignId`](#post-apiv1opensmsrefundcampaignId) | refund | `campaignId` |
 
 ## ตัวอย่าง Request/Response
 
@@ -121,7 +122,7 @@ Accept: application/json
 Authorization: Bearer {API_KEY}
 Content-Type: application/json
 
-{   
+{
     "target": "065XXXXXXX",
     "senderId": "00000000-0000-0000-0000-000000000000" // type OTP only | senderId เป็น OPTIONAL หรือไม่จำเป็นต้องแนบไปกับ payload ก็ได้ ไอดีของเซ็นเดอร์ใช้ในกรณีที่ไม่ต้องการส่งผ่านเซ็นเดอร์ค่าเริ่มต้นของระบบหรือต้องการใช้เซ็นเดอร์ของตัวเอง
 }
@@ -148,7 +149,7 @@ Accept: application/json
 Authorization: Bearer {API_KEY}
 Content-Type: application/json
 
-{   
+{
     "target": "065XXXXXXX",
     "otpCode": "123456" ,
     "otpRef": "AAAA"
@@ -164,6 +165,25 @@ Content-Type: application/json
 }
 ```
 
+### **POST /api/v1/open/sms/refund/:campaignId**
+**Request:**
+```http
+POST /api/v1/open/sms/refund/:campaignId HTTP/1.1
+Host: smsfat.com
+Accept: application/json
+Authorization: Bearer {API_KEY}
+Content-Type: application/json
+```
+
+**Response:**
+```json
+{
+    "code": 1000,
+    "error": "",
+    "message": "คืนเครดิตสำเร็จ"
+}
+```
+
 ## Error Codes
 | รหัสข้อผิดพลาด | คำอธิบาย |
 |---------------|-----------|
@@ -171,7 +191,12 @@ Content-Type: application/json
 | `1001` | ไม่ได้รับอนุญาต (Unauthorized) |
 | `1002` | จำนวนเครดิตคงเหลือของท่านมีไม่พอ (Insufficient) |
 | `1003` | ข้อความไม่ถูกต้อง |
-| `2001` | ไม่สามารถส่งข้อความแคมเปญได้ |
+| `1004` | เกิดข้อผิดพลาดในระบบ (Internal Error ) |
+| `2001` | ไม่สามารถส่งข้อความแคมเปญได้ (Campaign Send Failed) |
+| `2002` | ไม่พบข้อมูลแคมเปญ (Campaign Not Found) |
+| `2003` | เกินระยะเวลา 30 วัน (Refund Period Expired) |
+| `2004` | เคมเปญนี้ได้ทำการขอคืนเครดิตไปแล้ว (Already Refunded) |
+| `2005` | ต้องรอ 24 ชม. ก่อนขอคืนเครดิตได้ (Refund Not Ready) |
 | `3001` | ไม่สามารถส่งข้อความ OTP ได้ |
 | `3002` | ไม่สามารถยืนยัน OTP / OTP ไม่ถูกต้อง |
 
