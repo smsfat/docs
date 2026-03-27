@@ -32,7 +32,11 @@ Content-Type: application/json
 | `POST` | [`/api/v1/open/sms/campaign/send`](#post-apiv1opensmscampaignsend) | ส่งข้อความแคมเปญ | `sendmessageName`, `message`, `phonelist`, `schedule`, `senderId` |
 | `POST` | [`/api/v1/open/sms/otp/send`](#post-apiv1opensmsotpsend) | ส่งข้อความ OTP | `target`, `senderId (optional)` |
 | `POST` | [`/api/v1/open/sms/otp/verify`](#post-apiv1opensmsotpverify) | ยืนยัน OTP | `target`, `otpCode`, `otpRef` |
-| `POST` | [`/api/v1/open/sms/refund/:campaignId`](#post-apiv1opensmsrefundcampaignId) | คืนเครดิต | `campaignId` |
+| `POST` | [`/api/v1/open/sms/refund/:campaignId`](#post-apiv1opensmsrefundcampaignid) | คืนเครดิต | `campaignId` |
+| `GET` | [`/api/v1/open/my/campaigns`](#get-apiv1openmycampaigns) | ดึงรายการแคมเปญทั้งหมด | `page`, `perPage`, `search (optional)`, `startDate (optional)`, `endDate (optional)` |
+| `GET` | [`/api/v1/open/my/campaign/:id/summary`](#get-apiv1openmycampaignidsummary) | ดูสรุปรายงานแคมเปญ | `id` |
+| `GET` | [`/api/v1/open/my/campaign/:id/phones`](#get-apiv1openmycampaignidphones) | ดูรายงานรายเบอร์ของแคมเปญ | `id`, `page`, `perPage`, `search (optional)` |
+| `GET` | [`/api/v1/open/my/dashboard`](#get-apiv1openmydashboard) | ดูแดชบอร์ดสรุปภาพรวม | `startDate (optional)`, `endDate (optional)` |
 
 ## ตัวอย่าง Request/Response
 
@@ -184,6 +188,186 @@ Content-Type: application/json
 }
 ```
 
+### **GET /api/v1/open/my/campaigns**
+**Request:**
+```http
+GET /api/v1/open/my/campaigns?page=1&perPage=20&search=&startDate=2025-01-01T00:00:00.000Z&endDate=2025-12-31T23:59:59.999Z HTTP/1.1
+Host: smsfat.com
+Accept: application/json
+Authorization: Bearer {API_KEY}
+Content-Type: application/json
+```
+
+**Response:**
+```json
+{
+    "code": 1000,
+    "error": "",
+    "message": "",
+    "data": [
+        {
+            "sendmessageId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "sendmessageName": "ชื่อแคมเปญ",
+            "message": "ข้อความ",
+            "type": "MARKETING",
+            "credit": 10,
+            "creditPerUse": 1,
+            "schedule": "2025-02-02T22:12:36.147Z",
+            "refNo": "ABCDEFGHIJKLMNO",
+            "msgType": "TH",
+            "refund": false,
+            "status": "SUCCESS",
+            "createdAt": "2025-02-02T22:12:36.147Z",
+            "updatedAt": "2025-02-02T22:12:40.000Z",
+            "sender": {
+                "senderName": "sample"
+            }
+        }
+    ],
+    "meta": {
+        "currentPage": 1,
+        "lastPage": 1,
+        "next": null,
+        "perPage": 20,
+        "prev": null,
+        "total": 1
+    }
+}
+```
+
+### **GET /api/v1/open/my/campaign/:id/summary**
+**Request:**
+```http
+GET /api/v1/open/my/campaign/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/summary HTTP/1.1
+Host: smsfat.com
+Accept: application/json
+Authorization: Bearer {API_KEY}
+Content-Type: application/json
+```
+
+**Response:**
+```json
+{
+    "code": 1000,
+    "error": "",
+    "message": "",
+    "data": {
+        "data": {
+            "sendmessageId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "sendmessageName": "ชื่อแคมเปญ",
+            "message": "ข้อความ",
+            "type": "MARKETING",
+            "credit": 10,
+            "creditPerUse": 1,
+            "schedule": "2025-02-02T22:12:36.147Z",
+            "refNo": "ABCDEFGHIJKLMNO",
+            "msgType": "TH",
+            "refund": false,
+            "status": "SUCCESS",
+            "createdAt": "2025-02-02T22:12:36.147Z",
+            "updatedAt": "2025-02-02T22:12:40.000Z",
+            "sender": {
+                "senderName": "sample",
+                "type": "MARKETING"
+            }
+        },
+        "counter": {
+            "fail": 0,
+            "expired": 0,
+            "blocklist": 0,
+            "invalid_msn": 0,
+            "pending": 0,
+            "success": 10,
+            "total": 10
+        },
+        "refund_credit": 0,
+        "credit_use_total": 10
+    }
+}
+```
+
+### **GET /api/v1/open/my/campaign/:id/phones**
+**Request:**
+```http
+GET /api/v1/open/my/campaign/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/phones?page=1&perPage=20&search= HTTP/1.1
+Host: smsfat.com
+Accept: application/json
+Authorization: Bearer {API_KEY}
+Content-Type: application/json
+```
+
+**Response:**
+```json
+{
+    "code": 1000,
+    "error": "",
+    "message": "",
+    "data": [
+        {
+            "uuid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "refNo": "ABCDEFGHIJKLMNO",
+            "phoneNumber": "66651234567",
+            "errorCode": null,
+            "status": "SUCCESS",
+            "sendmessageId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "createdAt": "2025-02-02T22:12:36.147Z",
+            "updatedAt": "2025-02-02T22:12:40.000Z"
+        }
+    ],
+    "meta": {
+        "currentPage": 1,
+        "lastPage": 1,
+        "next": null,
+        "perPage": 20,
+        "prev": null,
+        "total": 1
+    }
+}
+```
+
+### **GET /api/v1/open/my/dashboard**
+**Request:**
+```http
+GET /api/v1/open/my/dashboard?startDate=2025-01-01T00:00:00.000Z&endDate=2025-12-31T23:59:59.999Z HTTP/1.1
+Host: smsfat.com
+Accept: application/json
+Authorization: Bearer {API_KEY}
+Content-Type: application/json
+```
+
+**Response:**
+```json
+{
+    "code": 1000,
+    "error": "",
+    "message": "",
+    "data": {
+        "summary": {
+            "credit": 500,
+            "counts": {
+                "PENDING": 0,
+                "SUCCESS": 450,
+                "FAIL": 20,
+                "EXPIRED": 10,
+                "BLOCKLIST": 15,
+                "INVALID_MSN": 5
+            }
+        },
+        "chart": {
+            "donut": {
+                "refund": 50,
+                "using": 450
+            },
+            "column": {
+                "labels": ["2025-01-01", "2025-01-02", "2025-01-03"],
+                "success": [150, 200, 100],
+                "fail": [10, 15, 25]
+            }
+        }
+    }
+}
+```
+
 ## Error Codes
 | รหัสข้อผิดพลาด | คำอธิบาย |
 |---------------|-----------|
@@ -199,5 +383,7 @@ Content-Type: application/json
 | `2005` | ต้องรอ 24 ชม. ก่อนขอคืนเครดิตได้ (Refund Not Ready) |
 | `3001` | ไม่สามารถส่งข้อความ OTP ได้ |
 | `3002` | ไม่สามารถยืนยัน OTP / OTP ไม่ถูกต้อง |
+| `4001` | ไม่พบข้อมูลแคมเปญ (Campaign Not Found) |
+| `4002` | ไม่สามารถดึงรายงานได้ (Report Failed) |
 
 📌 **หมายเหตุ:** กรุณาใช้ API Key ที่ถูกต้องสำหรับการเข้าถึง API ที่ต้องมีการตรวจสอบสิทธิ์
