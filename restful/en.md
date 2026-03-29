@@ -7,7 +7,7 @@
 * [Error Codes](#error-codes)
 
 ## Base URL
-- The base URL is: https://smsfat.com
+- The base URL is: https://api.smsfat.com
 
 ## Constructing the Request Header
 All authenticated requests require an **API Key** sent via the Header.
